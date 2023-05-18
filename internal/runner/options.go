@@ -61,7 +61,7 @@ func Options() *common.Options {
 	flag.IntVar(&opt.Goroutine, "goroutine", 10, "")
 
 	flag.Usage = func() {
-		showBanner()
+		//showBanner()
 		showUsage()
 	}
 	flag.Parse()
@@ -69,7 +69,7 @@ func Options() *common.Options {
 	if version {
 		showVersion()
 	}
-	showBanner()
+	//showBanner()
 
 	if doUpdate {
 		if err := updater.New(); err != nil {
