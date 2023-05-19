@@ -2,7 +2,6 @@ package runner
 
 import (
 	"errors"
-
 	"ktbs.dev/mubeng/common"
 	"ktbs.dev/mubeng/internal/checker"
 	"ktbs.dev/mubeng/internal/daemon"
@@ -18,41 +17,10 @@ func New(opt *common.Options) error {
 
 		server.Run(opt)
 	} else if opt.Check {
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
-		checker.Do(opt)
+		for {
+			checker.Do(opt)
+		}
+
 		if opt.Output != "" {
 			defer opt.Result.Close()
 		}
