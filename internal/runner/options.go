@@ -2,6 +2,10 @@ package runner
 
 import (
 	"flag"
+	"fmt"
+	"io"
+	"net/http"
+	"os"
 	"time"
 
 	"github.com/projectdiscovery/gologger"
@@ -24,11 +28,12 @@ func Options() *common.Options {
 
 	flag.BoolVar(&opt.Check, "c", false, "")
 	flag.BoolVar(&opt.Check, "check", false, "")
+	flag.BoolVar(&opt.Loop, "loop", false, "")
 
 	flag.StringVar(&opt.CC, "only-cc", "", "")
 
-	flag.DurationVar(&opt.Timeout, "t", 30*time.Second, "")
-	flag.DurationVar(&opt.Timeout, "timeout", 30*time.Second, "")
+	flag.DurationVar(&opt.Timeout, "t", 2*time.Second, "")
+	flag.DurationVar(&opt.Timeout, "timeout", 2*time.Second, "")
 
 	flag.IntVar(&opt.Rotate, "r", 1, "")
 	flag.IntVar(&opt.Rotate, "rotate", 1, "")
@@ -48,7 +53,11 @@ func Options() *common.Options {
 	flag.StringVar(&opt.Output, "o", "", "")
 	flag.StringVar(&opt.Output, "output", "", "")
 
-	flag.BoolVar(&doUpdate, "u", false, "")
+	flag.StringVar(&opt.Url, "u", "", "")
+	//flag.StringVar(&opt.Out, "o", ".", "配置文件保存路径")
+
+	flag.BoolVar(&Verify, "verify", false, "验证配置文件可用性")
+
 	flag.BoolVar(&doUpdate, "update", false, "")
 
 	flag.BoolVar(&version, "V", false, "")
@@ -71,10 +80,51 @@ func Options() *common.Options {
 	}
 	//showBanner()
 
+	if opt.Url != "" {
+		// 发送 GET 请求获取资源
+		resp, err := http.Get(opt.Url)
+		if err != nil {
+			fmt.Println("Error fetching resource:", err)
+			os.Exit(1)
+		}
+		defer resp.Body.Close()
+
+		// 创建本地文件
+		file, err := os.Create("config.yaml")
+		if err != nil {
+			fmt.Println("Error creating file:", err)
+			os.Exit(1)
+		}
+		defer file.Close()
+
+		// 将获取到的资源写入本地文件
+		_, err = io.Copy(file, resp.Body)
+		if err != nil {
+			fmt.Println("Error writing to file:", err)
+			os.Exit(1)
+		}
+
+		// 移动文件到指定位置
+		err = os.Rename("config.yaml", os.ExpandEnv("."+"/config.yaml"))
+		if err != nil {
+			fmt.Println("Error moving file:", err)
+			os.Exit(1)
+		}
+		fmt.Println("配置文件下载地址:", opt.Url)
+		fmt.Println("配置文件保存路径:", ".")
+		os.Exit(0)
+	}
+
 	if doUpdate {
 		if err := updater.New(); err != nil {
 			gologger.Fatal().Msgf("Error! %s.", err)
 		}
+	}
+
+	if Verify {
+		fmt.Println("验证配置文件(./config.yaml)可用性中")
+		Verify_Yaml("./config.yaml")
+		os.Exit(0)
 	}
 
 	if err := validate(opt); err != nil {

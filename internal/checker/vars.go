@@ -6,7 +6,9 @@ import (
 
 var (
 	client *http.Client
-	ipinfo IPInfo
+	//ipinfo   IPInfo
+	ipinfo Ifconfig
 
-	endpoint = "https://ipinfo.io/json"
+	//endpoint = "https://ipinfo.io/json"
+	endpoint = "https://ifconfig.me/all.json"
 )

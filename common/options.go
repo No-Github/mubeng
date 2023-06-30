@@ -17,6 +17,7 @@ type Options struct {
 	Auth      string
 	CC        string
 	Check     bool
+	Loop      bool
 	Countries []string
 	Daemon    bool
 	File      string
@@ -27,4 +28,6 @@ type Options struct {
 	Sync      bool
 	Verbose   bool
 	Watch     bool
+	Url       string
+	//Out       string
 }

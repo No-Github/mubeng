@@ -16,10 +16,12 @@ func New(opt *common.Options) error {
 		}
 
 		server.Run(opt)
-	} else if opt.Check {
+	} else if opt.Loop {
 		for {
 			checker.Do(opt)
 		}
+	} else if opt.Check {
+		checker.Do(opt)
 
 		if opt.Output != "" {
 			defer opt.Result.Close()

@@ -11,3 +11,16 @@ type IPInfo struct {
 	Region   string `json:"region"`
 	Timezone string `json:"timezone"`
 }
+
+type Ifconfig struct {
+	IP        string `json:"ip_addr"`
+	Country   string `json:"remote_host"`
+	UserAgent string `json:"user_agent"`
+	Port      int    `json:"port"`
+	Language  string `json:"language"`
+	Method    string `json:"method"`
+	Encoding  string `json:"encoding"`
+	Mime      string `json:"mime"`
+	Via       string `json:"via"`
+	Forwarded string `json:"forwarded"`
+}

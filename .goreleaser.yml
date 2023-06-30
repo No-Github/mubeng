@@ -1,5 +1,5 @@
 builds:
-  - binary: mubeng
+  - binary: lazypool
     main: cmd/mubeng/main.go
     ldflags:
       - -s -w -X ktbs.dev/mubeng/common.Version=v{{.Version}}
@@ -10,7 +10,7 @@ builds:
     goarch:
       - amd64
       - arm64
-  
+
 archives:
   - id: binary
     format: binary

@@ -62,7 +62,7 @@ func isMatchCC(cc []string, code string) bool {
 	return false
 }
 
-func check(address string, timeout time.Duration) (IPInfo, error) {
+func check(address string, timeout time.Duration) (Ifconfig, error) {
 	req, err := http.NewRequest("GET", endpoint, nil)
 	if err != nil {
 		return ipinfo, err
